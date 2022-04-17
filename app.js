@@ -5,7 +5,7 @@ let { trainers } = require('./data');
 const mongo = require('mongodb')
 // const bodyParser = require('body-parser')
 const Post = require('./schema');
-
+require('dotenv/config');
 
 
 // app.use(bodyParser.json());
@@ -89,10 +89,11 @@ app.post('/trainers', async (req, res) => {
 });
 
 
-mongoose.connect('mongodb+srv://mongotester:12345@cluster0.mnuj7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
-{ useNewUrlParser: true }, () => {
-    console.log('connected to db');
-})
+mongoose.connect(
+    process.env.DB_CONNECTION,
+    { useNewUrlParser: true }, 
+    () => console.log('connected to db')
+);
 
 
 app.listen(9696, ()=> {
