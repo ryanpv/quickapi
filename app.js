@@ -87,22 +87,21 @@ app.post('/trainers', async (req, res) => {
     }
     
 });
-
+// ------- REVIEW --------
 // what's happening here?????????
-// app.delete('trainers/:postId', async (req, res) => {
-//     // const { id } = req.params;
-//     try { 
-//         const post = await Post.find();
-//         console.log(post);
-//         const trainerId = await post.find((singleId) => singleId.id === Number(postId))
-//         console.log(trainerId);
-//     const removedPost = await trainerId.deleteOne({ id: req.params.postId })
-//     res.json(removedPost);
-//     } catch(err) {
-//         res.json({ message: "no such post to delete" })
-//     }
-// })
-
+// fixed - missing pathway . gg
+app.delete('/trainers/:postId', async (req, res) => {
+    try { 
+        const post = await Post.find();
+        const { postId } = req.params;
+        const trainerId = await post.find((trainer) => trainer.id === Number(postId))
+        const removedPost = await trainerId.deleteOne({ id: req.params.postId })
+    res.json(removedPost);
+    } catch(err) {
+        res.json({ message: "no such post to delete" })
+    }
+})
+// ------ END ----------
 app.delete('/trainers/:trainername', async (req, res) => {
     try {
         const posts = await Post.find()
