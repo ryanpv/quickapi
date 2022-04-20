@@ -35,9 +35,9 @@ app.get('/trainers/:trainername', async (req, res) => {
     try {
         const posts = await Post.find()
         const { trainername } = req.params
-        const trainerId =  await posts.find((singleId) => singleId.trainerName === String(trainername));
+        const trainerId = await posts.find((singleId) => singleId.trainerName === String(trainername));
     res.status(200).json({ success: true, data: trainerId});
-    } catch {
+    } catch(err) {
         res.json({ message: err })
     }
   
@@ -88,6 +88,33 @@ app.post('/trainers', async (req, res) => {
     
 });
 
+// what's happening here?????????
+// app.delete('trainers/:postId', async (req, res) => {
+//     // const { id } = req.params;
+//     try { 
+//         const post = await Post.find();
+//         console.log(post);
+//         const trainerId = await post.find((singleId) => singleId.id === Number(postId))
+//         console.log(trainerId);
+//     const removedPost = await trainerId.deleteOne({ id: req.params.postId })
+//     res.json(removedPost);
+//     } catch(err) {
+//         res.json({ message: "no such post to delete" })
+//     }
+// })
+
+app.delete('/trainers/:trainername', async (req, res) => {
+    try {
+        const posts = await Post.find()
+        const { trainername } = req.params
+        const trainerId = await posts.find((singleId) => singleId.trainerName === String(trainername));
+        const removedPost = await trainerId.deleteOne({ trainerName: req.params.trainername })
+    res.status(200).json({ success: true, data: removedPost });
+    } catch(err) {
+        res.json({ message: err })
+    }
+  
+});
 
 mongoose.connect(
     process.env.DB_CONNECTION,
